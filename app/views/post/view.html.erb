@@ -1,0 +1,38 @@
+<div class="container" style="margin-top:50px;">
+    <h1><%= @post.title %></h1><hr />
+    <div style="text-align:right;">
+        <h4><%= @post.created_at %></h4>    
+        <h4><%= @post.user.username %></h4>
+        <a href="/post/edit/<%= @post.id %>">
+            <span class="badge badge-dark">수정</span>
+        </a>
+        <a href="/post/destroy/<%= @post.id %>">
+            <span class="badge badge-light">삭제</span>
+        </a>
+    </div>
+    <h4><%= @post.content %></h4>
+    <% unless @post.image.nil? %>
+      <%= image_tag @post.image %>
+      <%= image_tag @post.image_thumb %>
+      <hr />
+    <% end %>
+    
+    
+    
+    <% @post.replies.each do |r| %>
+        <%= r.user.username %> : <%= r.content %>
+        <a href="/reply/destroy/<%= r.id %>">
+            <span class="badge badge-secondary">X</span>
+        </a>
+        <br>
+    <% end %>
+    <form action = "/reply/create/<%= @post.id %>" method = "post">
+        <div class="row">
+            <div class="form-group col-11">
+                <label for="exampleFormControlTextarea1">댓글</label>
+                <textarea name = "content" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <button type="button submit" class="btn btn-dark col-1">댓글달기</button>
+        </div>
+    </form>
+</div>
